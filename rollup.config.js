@@ -13,7 +13,7 @@ import pkg from './package.json'
 
 export default {
   input: {
-    'tauricon': './src/tauricon.ts',
+    tauricon: './src/tauricon.ts'
   },
   treeshake: true,
   perf: true,

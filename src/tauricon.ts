@@ -279,6 +279,7 @@ const tauricon = {
         pngImage.png()
         await pngImage.toFile(pvar[0])
       } catch (err: Err) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         warn(err)
       }
     }
