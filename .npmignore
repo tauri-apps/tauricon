@@ -1,0 +1,7 @@
+test
+node_modules
+.git
+.github
+.idea
+SECURITY.md
+build
