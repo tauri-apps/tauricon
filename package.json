@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Make icons for your Tauri app.",
   "bin": {
-    "tauri": "./bin/tauricon.js"
+    "tauricon": "./bin/tauricon.js"
   },
   "type": "module",
   "repository": {
