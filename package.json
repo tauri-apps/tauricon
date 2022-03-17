@@ -61,6 +61,7 @@
     "@types/global-agent": "2.1.1",
     "@types/ms": "0.7.31",
     "@types/semver": "7.3.9",
+    "@types/sharp": "0.30.0",
     "is-running": "2.1.0",
     "jest": "27.5.1",
     "jest-transform-toml": "1.0.0",
