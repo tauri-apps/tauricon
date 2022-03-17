@@ -18,10 +18,7 @@
  * @license MIT
  */
 
-import * as fsExtra from 'fs-extra';
-import imagemin, { Plugin } from 'imagemin';
-import optipng from 'imagemin-optipng';
-import zopfli from 'imagemin-zopfli';
+import { access, ensureDir, ensureFileSync, writeFileSync } from 'fs-extra';
 import isPng from 'is-png';
 import path from 'path';
 import * as png2icons from 'png2icons';
@@ -33,16 +30,12 @@ import * as settings from './helpers/tauricon.config';
 import chalk from 'chalk';
 import { createRequire } from 'module';
 
-// @ts-expect-error
-const { access, ensureDir, ensureFileSync, writeFileSync } = fsExtra.default;
-
 const require = createRequire(import.meta.url);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pngToIco = require('png-to-ico');
 
-const log = logger('app:spawn');
 const warn = logger('app:spawn', chalk.red);
 
 let image: boolean | sharp.Sharp = false;
@@ -234,12 +227,6 @@ const tauricon = {
     await this.icns(src, target);
     progress('Building Tauri png icons');
     await this.build(src, target, options);
-    if (strategy) {
-      progress(`Minifying assets with ${strategy}`);
-      await this.minify(target, options, strategy, 'batch');
-    } else {
-      log('no minify strategy');
-    }
     progress('Tauricon Finished');
     if (spinnerInterval) clearInterval(spinnerInterval);
     return true;
@@ -413,73 +400,6 @@ const tauricon = {
         }
       }
     }
-  },
-
-  /**
-   * Minifies a set of images
-   *
-   * @param {string} target - image location
-   * @param {object} options - where to drop the images
-   * @param {string} strategy - which minify strategy to use
-   * @param {string} mode - singlefile or batch
-   */
-  minify: async function (
-    target: string,
-    // TODO: proper type for options
-    options: { [index: string]: any },
-    strategy: string,
-    mode: string,
-  ): Promise<string> {
-    let cmd: Plugin;
-    const minify = settings.options.minify;
-    if (!minify.available.find((x) => x === strategy)) {
-      strategy = minify.type;
-    }
-    switch (strategy) {
-      case 'optipng':
-        cmd = optipng(minify.optipngOptions);
-        break;
-      case 'zopfli':
-        cmd = zopfli(minify.zopfliOptions);
-        break;
-      default:
-        throw new Error('unknown strategy' + strategy);
-    }
-
-    const minifier = async (pvar: string[], cmd: Plugin): Promise<void> => {
-      await imagemin([pvar[0]], {
-        destination: pvar[1],
-        plugins: [cmd],
-      }).catch((err: string) => {
-        warn(err);
-      });
-    };
-
-    switch (mode) {
-      case 'singlefile':
-        await minifier([target, path.dirname(target)], cmd);
-        break;
-      case 'batch':
-        // eslint-disable-next-line no-case-declarations
-        const folders = uniqueFolders(options);
-        // eslint-disable-next-line @typescript-eslint/no-for-in-array
-        for (const n in folders) {
-          const folder = folders[Number(n)];
-          log('batch minify:' + String(folder));
-          await minifier(
-            [
-              `${target}${path.sep}${folder}${path.sep}*.png`,
-              `${target}${path.sep}${folder}`,
-            ],
-            cmd,
-          );
-        }
-        break;
-      default:
-        warn('[ERROR] Minify mode must be one of [ singlefile | batch]');
-        process.exit(1);
-    }
-    return 'minified';
   },
 
   /**
