@@ -1,2 +1,1 @@
-# tauricon
-Make icons for your tauri app with nodejs
+**NOTE: Not intended for use outside of Soire monorepo**
