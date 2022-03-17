@@ -7,8 +7,8 @@
 import { terser } from 'rollup-plugin-terser'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import babel from '@rollup/plugin-babel'
 import typescript from '@rollup/plugin-typescript'
+import swc from 'rollup-plugin-swc'
 import pkg from './package.json'
 
 export default {
@@ -45,11 +45,23 @@ export default {
     typescript({
       tsconfig: './tsconfig.json'
     }),
-    babel({
-      configFile: false,
-      presets: [['@babel/preset-env'], ['@babel/preset-typescript']]
+    swc({
+      'minify': true,
+      jsc: {
+        'minify': {
+          
+        },
+        parser: {
+          syntax: 'typescript',
+        },
+        target: 'es5',
+      },
     }),
-    terser()
+    // babel({
+    //   configFile: false,
+    //   presets: [['@babel/preset-env'], ['@babel/preset-typescript']]
+    // }),
+    // terser()
   ],
   external: [
     ...Object.keys(pkg.dependencies || {}),
