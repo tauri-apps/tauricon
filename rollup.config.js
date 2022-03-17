@@ -44,17 +44,15 @@ export default {
       tsconfig: './tsconfig.json'
     }),
     swc({
-      'minify': true,
+      minify: true,
       jsc: {
-        'minify': {
-          
-        },
+        minify: {},
         parser: {
-          syntax: 'typescript',
+          syntax: 'typescript'
         },
-        target: 'es5',
-      },
-    }),
+        target: 'es5'
+      }
+    })
     // babel({
     //   configFile: false,
     //   presets: [['@babel/preset-env'], ['@babel/preset-typescript']]
