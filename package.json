@@ -1,5 +1,5 @@
 {
-  "name": "@tauri-apps/tauricon",
+  "name": "@soire/tauricon",
   "version": "1.0.0",
   "private": true,
   "description": "Make icons for your Tauri app.",
