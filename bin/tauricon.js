@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
 
-import parseArgs from 'minimist'
-import tauricon from '../dist/tauricon.js'
+import parseArgs from 'minimist';
+import tauricon from '../dist/tauricon.js';
 
 /**
  * @type {object}
@@ -26,10 +26,10 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     l: 'log',
     c: 'config',
-    t: 'target'
+    t: 'target',
   },
-  boolean: ['h', 'l']
-})
+  boolean: ['h', 'l'],
+});
 
 if (argv.help) {
   console.log(`
@@ -46,17 +46,17 @@ if (argv.help) {
     --target, t         Target folder (default: 'src-tauri/icons')
     --compression, c    Compression type [optipng|zopfli]
     --ci                Runs the script in CI mode
-    `)
-  process.exit(0)
+    `);
+  process.exit(0);
 }
 
 tauricon
   .make(argv._[0], argv.t, argv.c || 'optipng')
   .then(() => {
     // TODO: use logger module for prettier output
-    console.log('app:tauri (tauricon) Completed')
+    console.log('app:tauri (tauricon) Completed');
   })
   .catch((e) => {
     // TODO: use logger module for prettier output
-    console.error('app:tauri (icon)', e)
-  })
+    console.error('app:tauri (icon)', e);
+  });

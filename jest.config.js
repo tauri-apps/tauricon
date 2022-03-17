@@ -1,6 +1,6 @@
 export default {
   globals: {
-    __DEV__: true
+    __DEV__: true,
   },
   setupFilesAfterEnv: ['<rootDir>/test/jest/jest.setup.js'],
   // noStackTrace: true,
@@ -28,7 +28,7 @@ export default {
   // },
   testMatch: [
     '<rootDir>/test/jest/__tests__/**/*.spec.js',
-    '<rootDir>/test/jest/__tests__/**/*.test.js'
+    '<rootDir>/test/jest/__tests__/**/*.test.js',
   ],
   moduleFileExtensions: ['ts', 'js', 'json'],
   moduleNameMapper: {
@@ -40,11 +40,11 @@ export default {
     '^templates/(.*)$': '<rootDir>/src/templates/$1',
     '^test/(.*)$': '<rootDir>/test/$1',
     '../../package.json': '<rootDir>/package.json',
-    'node:(.*)$': '$1'
+    'node:(.*)$': '$1',
   },
   transform: {
     '\\.toml$': 'jest-transform-toml',
-    '\\.(js|ts)$': 'babel-jest'
+    '\\.(js|ts)$': 'babel-jest',
   },
-  extensionsToTreatAsEsm: ['.ts']
-}
+  extensionsToTreatAsEsm: ['.ts'],
+};

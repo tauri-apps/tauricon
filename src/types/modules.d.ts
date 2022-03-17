@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
 
-declare module 'imagemin-zopfli'
+declare module 'imagemin-zopfli';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
-declare const __non_webpack_require__: Function
+declare const __non_webpack_require__: Function;
 
-type Err = any
+type Err = any;
