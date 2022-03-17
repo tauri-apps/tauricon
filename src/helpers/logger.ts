@@ -7,8 +7,8 @@ import ms from 'ms';
 
 let prevTime: number;
 
-export default (banner: string, color: chalk.Chalk = chalk.green) => {
-  return (msg?: string) => {
+const logger = (banner: string, color: chalk.Chalk = chalk.green) => {
+  return (msg?: string): void => {
     const curr = +new Date();
     const diff = curr - (prevTime || curr);
 
@@ -25,3 +25,5 @@ export default (banner: string, color: chalk.Chalk = chalk.green) => {
     }
   };
 };
+
+export default logger;

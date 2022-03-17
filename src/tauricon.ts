@@ -210,11 +210,11 @@ const spinner = (): NodeJS.Timeout | null => {
 };
 
 const tauricon = {
-  validate: async function (src: string, target: string) {
+  validate: async function (src: string, target: string): Promise<boolean> {
     await validate(src, target);
     return typeof image === 'object';
   },
-  version: function () {
+  version: (): unknown => {
     return version;
   },
   make: async function (
@@ -223,7 +223,7 @@ const tauricon = {
     strategy: string,
     // TODO: proper type for options
     options: { [index: string]: any },
-  ) {
+  ): Promise<boolean> {
     if (!src) {
       src = path.resolve(appDir, 'app-icon.png');
     }
@@ -231,7 +231,7 @@ const tauricon = {
     options = options || settings.options.tauri;
     progress(`Building Tauri icns and ico from "${src}"`);
     await this.validate(src, target);
-    await this.icns(src, target, options, strategy);
+    await this.icns(src, target);
     progress('Building Tauri png icons');
     await this.build(src, target, options);
     if (strategy) {
@@ -257,7 +257,7 @@ const tauricon = {
     target: string,
     // TODO: proper type for options
     options: { [index: string]: any },
-  ) {
+  ): Promise<void> {
     await this.validate(src, target);
     const sharpSrc = sharp(src); // creates the image object
     const buildify2 = async function (
@@ -330,7 +330,7 @@ const tauricon = {
     target: string,
     // TODO: proper type for options
     options: { [index: string]: any },
-  ) {
+  ): Promise<void> {
     let output;
     let block = false;
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/no-unsafe-argument
@@ -429,7 +429,7 @@ const tauricon = {
     options: { [index: string]: any },
     strategy: string,
     mode: string,
-  ) {
+  ): Promise<string> {
     let cmd: Plugin;
     const minify = settings.options.minify;
     if (!minify.available.find((x) => x === strategy)) {
@@ -494,9 +494,7 @@ const tauricon = {
     src: string,
     target: string,
     // TODO: proper type for options
-    options: { [index: string]: any },
-    strategy: string,
-  ) {
+  ): Promise<void> {
     try {
       if (!image) {
         process.exit(1);

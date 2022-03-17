@@ -51,8 +51,8 @@ const appDir = getAppDir() ?? resolve(getTauriDir(), '..');
 const tauriDir = getTauriDir();
 
 const resolveDir = {
-  app: (dir: string) => resolvePath(appDir, dir),
-  tauri: (dir: string) => resolvePath(tauriDir, dir),
+  app: (dir: string): string => resolvePath(appDir, dir),
+  tauri: (dir: string): string => resolvePath(tauriDir, dir),
 };
 
 export { appDir, tauriDir, resolveDir as resolve };
