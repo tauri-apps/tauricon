@@ -3,8 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 // rollup.config.js
-// import { readFileSync } from 'fs'
-import { terser } from 'rollup-plugin-terser'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
