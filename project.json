@@ -1,0 +1,10 @@
+{
+  "root": "packages/tauricon/",
+  "sourceRoot": "packages/tauricon/src",
+  "projectType": "lib",
+  "architect": {
+    "build": {
+      "outputs": ["dist"]
+    }
+  }
+}
