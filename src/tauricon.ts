@@ -77,12 +77,13 @@ const checkSrc = async (src: string): Promise<boolean | sharp.Sharp> => {
       process.exit(1)
     } else {
       const buffer = await readChunk(src, { startPosition: 0, length: 8 })
-      if (isPng(buffer)) {
+      // TODO: Validate if file content is svg. is-svg doesn't work with a chunk.
+      if (isPng(buffer) || path.extname(src) === '.svg') {
         image = sharp(src)
         const meta = await image.metadata()
         if (!meta.hasAlpha || meta.channels !== 4) {
           if (spinnerInterval) clearInterval(spinnerInterval)
-          warn('[ERROR] Source png for tauricon is not transparent')
+          warn('[ERROR] Source image for tauricon is not transparent')
           process.exit(1)
         }
 
@@ -92,7 +93,7 @@ const checkSrc = async (src: string): Promise<boolean | sharp.Sharp> => {
         if (stats.isOpaque) {
           if (spinnerInterval) clearInterval(spinnerInterval)
           warn(
-            '[ERROR] Source png for tauricon could not be detected as transparent'
+            '[ERROR] Source image for tauricon could not be detected as transparent'
           )
           process.exit(1)
         }
@@ -101,7 +102,7 @@ const checkSrc = async (src: string): Promise<boolean | sharp.Sharp> => {
       } else {
         image = false
         if (spinnerInterval) clearInterval(spinnerInterval)
-        warn('[ERROR] Source image for tauricon is not a png')
+        warn('[ERROR] Source image for tauricon is not a png or svg file')
         process.exit(1)
       }
     }

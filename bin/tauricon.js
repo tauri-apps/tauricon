@@ -35,7 +35,9 @@ if (argv.help) {
   console.log(`
   Description
     Create all the icons you need for your Tauri app.
-    The icon path is the source icon (png, 1240x1240 with transparency, default: 'app-icon.png').
+
+    "ICON-PATH" is the path to the source icon (default: 'app-icon.png').
+    The icon needs to be either png (1240x1240 with transparency) or svg (square dimensions with transparency).
 
   Usage
     $ tauri icon [ICON-PATH]
