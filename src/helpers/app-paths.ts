@@ -21,7 +21,7 @@ const getAppDir = (): string | null => {
   const dir = process.env.__TAURI_TEST_APP_DIR ?? process.cwd()
   // eslint-disable-next-line
   const matches: string[] = glob.sync(join(dir, `**/package.json`), {
-    ignore: '**/node_modules/**'
+    ignore: ['**/node_modules/**', '**/target/**']
   })
 
   if (matches.length === 0) {
@@ -34,7 +34,9 @@ const getAppDir = (): string | null => {
 const getTauriDir = (): string => {
   const dir = process.env.__TAURI_TEST_APP_DIR ?? process.cwd()
   // eslint-disable-next-line
-  const matches: string[] = glob.sync(join(dir, `**/tauri.conf.json`))
+  const matches: string[] = glob.sync(join(dir, `**/tauri.conf.json`), {
+    ignore: ['**/node_modules/**', '**/target/**']
+  })
 
   if (matches.length === 0) {
     warn(
