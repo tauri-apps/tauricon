@@ -2993,7 +2993,7 @@ cosmiconfig@^6.0.0:
     path-type "^4.0.0"
     yaml "^1.7.2"
 
-covector@^0.7.3:
+covector@0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/covector/-/covector-0.7.3.tgz#909b8c2d9fa9424310321e52d337a12a2be2102f"
   integrity sha512-Y3V2Hyu3QWp4Ot2YyKmUaVb1Lpjo8c6ts+xobM401r6vmltf6QIL5NJd9HiGyk0NkRKU92MmVnzJnQs8BwEppA==
