@@ -9,7 +9,7 @@ on:
       - dev
 
 jobs:
-  lint:
+  format:
     runs-on: ubuntu-latest
 
     steps:
