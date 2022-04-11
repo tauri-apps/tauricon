@@ -1,5 +1,5 @@
 ---
-'tauricon': patch
+'tauricon': major
 ---
 
 Initial release.
