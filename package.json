@@ -68,7 +68,7 @@
     "png-to-ico": "2.1.4",
     "png2icons": "2.0.1",
     "read-chunk": "4.0.2",
-    "semver": "7.3.6",
+    "semver": "7.3.7",
     "sharp": "0.30.3",
     "update-notifier": "5.1.0"
   },
