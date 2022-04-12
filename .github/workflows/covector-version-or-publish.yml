@@ -9,10 +9,6 @@ jobs:
   version-or-publish:
     runs-on: ubuntu-latest
     timeout-minutes: 65
-    outputs:
-      change: ${{ steps.covector.outputs.change }}
-      commandRan: ${{ steps.covector.outputs.commandRan }}
-      successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
 
     steps:
       - uses: actions/checkout@v2
