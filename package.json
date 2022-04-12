@@ -1,6 +1,6 @@
 {
   "name": "@tauri-apps/tauricon",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Make icons for your Tauri app.",
   "bin": {
     "tauricon": "./bin/tauricon.js"
@@ -35,8 +35,8 @@
     "lint": "eslint --ext ts \"./src/**/*.ts\"",
     "lint-fix": "eslint --fix --ext ts \"./src/**/*.ts\"",
     "lint:lockfile": "lockfile-lint --path yarn.lock --type yarn --validate-https --allowed-hosts npm yarn",
-    "format": "prettier --write --end-of-line=auto \"./**/*.{cjs,js,jsx,ts,tsx,html,css,json}\" --ignore-path .gitignore",
-    "format:check": "prettier --check --end-of-line=auto \"./**/*.{cjs,js,jsx,ts,tsx,html,css,json}\" --ignore-path .gitignore"
+    "format": "prettier --write --end-of-line=auto \"./src/**/*.{cjs,js,jsx,ts,tsx,html,css,json}\" --ignore-path .gitignore",
+    "format:check": "prettier --check --end-of-line=auto \"./src/**/*.{cjs,js,jsx,ts,tsx,html,css,json}\" --ignore-path .gitignore"
   },
   "contributors": [
     "Tauri Programme within The Commons Conservancy"
@@ -94,6 +94,7 @@
     "@typescript-eslint/eslint-plugin": "5.19.0",
     "@typescript-eslint/parser": "5.19.0",
     "babel-jest": "27.5.1",
+    "covector": "0.7.3",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard-with-typescript": "21.0.1",
@@ -115,6 +116,7 @@
     "typescript": "4.6.3"
   },
   "resolutions": {
+    "**/semver-regex": "4.0.2",
     "**/trim-newlines": "4.0.2"
   }
 }
