@@ -20,7 +20,8 @@ function resolvePath(basePath: string, dir: string): string {
 const getAppDir = (): string | null => {
   const dir = process.env.__TAURI_TEST_APP_DIR ?? process.cwd()
   // eslint-disable-next-line
-  const matches: string[] = glob.sync(join(dir, `**/package.json`), {
+  const matches: string[] = glob.sync('**/package.json', {
+    cwd: dir,
     ignore: ['**/node_modules/**', '**/target/**']
   })
 
@@ -34,7 +35,8 @@ const getAppDir = (): string | null => {
 const getTauriDir = (): string => {
   const dir = process.env.__TAURI_TEST_APP_DIR ?? process.cwd()
   // eslint-disable-next-line
-  const matches: string[] = glob.sync(join(dir, `**/tauri.conf.json`), {
+  const matches: string[] = glob.sync('**/tauri.conf.json', {
+    cwd: dir,
     ignore: ['**/node_modules/**', '**/target/**']
   })
 
