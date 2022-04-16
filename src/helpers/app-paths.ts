@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
 
-import { join, resolve, isAbsolute, dirname } from 'path'
+import { resolve, dirname } from 'path'
 import logger from './logger'
 import chalk from 'chalk'
 import { createRequire } from 'module'
@@ -12,10 +12,6 @@ const warn = logger('tauri', chalk.red)
 const require = createRequire(import.meta.url)
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
 const glob = require('glob')
-
-function resolvePath(basePath: string, dir: string): string {
-  return dir && isAbsolute(dir) ? dir : resolve(basePath, dir)
-}
 
 const getAppDir = (): string | null => {
   const dir = process.env.__TAURI_TEST_APP_DIR ?? process.cwd()
@@ -54,9 +50,4 @@ const getTauriDir = (): string => {
 const appDir = getAppDir() ?? resolve(getTauriDir(), '..')
 const tauriDir = getTauriDir()
 
-const resolveDir = {
-  app: (dir: string) => resolvePath(appDir, dir),
-  tauri: (dir: string) => resolvePath(tauriDir, dir)
-}
-
-export { appDir, tauriDir, resolveDir as resolve }
+export { appDir, tauriDir }
