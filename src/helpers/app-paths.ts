@@ -28,7 +28,7 @@ const getAppDir = (): string | null => {
   if (matches.length === 0) {
     return null
   } else {
-    return resolve(dir, dirname(matches[0]))
+    return dirname(matches[0])
   }
 }
 
@@ -47,7 +47,7 @@ const getTauriDir = (): string => {
     process.exit(1)
     return ''
   } else {
-    return resolve(dir, dirname(matches[0]))
+    return dirname(matches[0])
   }
 }
 
