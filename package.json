@@ -101,7 +101,7 @@
     "eslint-plugin-lodash-template": "0.21.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "6.0.0",
-    "eslint-plugin-security": "1.4.0",
+    "eslint-plugin-security": "1.5.0",
     "is-running": "2.1.0",
     "jest": "27.5.1",
     "jest-transform-toml": "1.0.0",
