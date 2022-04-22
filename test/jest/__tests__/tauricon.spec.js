@@ -29,7 +29,9 @@ describe('[CLI] tauri-icon builder', () => {
         'optipng'
       )
     } catch (e) {
-      expect(e.message).toBe('Input file is missing')
+      expect(e.message).toBe(
+        'Input file is missing: test/jest/fixtures/tauri-foo-not-found.png'
+      )
     }
   })
 
