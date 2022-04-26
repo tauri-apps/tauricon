@@ -18,7 +18,7 @@ export const options = {
     type: 'optipng',
     optipngOptions: {
       optimizationLevel: 4,
-      paletteReduction: true
+      colorTypeReduction: false
     },
     zopfliOptions: {
       transparent: true,
