@@ -25,7 +25,6 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help',
     l: 'log',
-    c: 'compress',
     t: 'target'
   },
   boolean: ['h', 'l']
@@ -46,13 +45,12 @@ if (argv.help) {
     --help, -h          Displays this message
     --log, l            Logging [boolean]
     --target, t         Target folder (default: 'src-tauri/icons')
-    --compression, c    Compression type [optipng|zopfli]
     `)
   process.exit(0)
 }
 
 tauricon
-  .make(argv._[0], argv.t, argv.c || 'optipng')
+  .make(argv._[0], argv.t, 'optipng')
   .then(() => {
     // TODO: use logger module for prettier output
     console.log('app:tauri (tauricon) Completed')
