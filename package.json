@@ -56,7 +56,7 @@
     "fs-extra": "10.1.0",
     "glob": "8.0.1",
     "global-agent": "3.0.0",
-    "got": "12.0.3",
+    "got": "12.0.4",
     "imagemin": "8.0.1",
     "imagemin-optipng": "8.0.0",
     "imagemin-zopfli": "7.0.0",
