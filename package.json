@@ -1,6 +1,6 @@
 {
   "name": "@tauri-apps/tauricon",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Make icons for your Tauri app.",
   "bin": {
     "tauricon": "./bin/tauricon.js"
