@@ -1,5 +1,0 @@
----
-'tauricon': major
----
-
-Initial release.
