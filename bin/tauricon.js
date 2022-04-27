@@ -39,7 +39,7 @@ if (argv.help) {
     The icon needs to be either png (1240x1240 with transparency) or svg (square dimensions with transparency).
 
   Usage
-    $ tauri icon [ICON-PATH]
+    $ tauricon [ICON-PATH]
 
   Options
     --help, -h          Displays this message
