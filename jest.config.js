@@ -41,8 +41,7 @@ export default {
     '^test/(.*)$': '<rootDir>/test/$1',
     '../../package.json': '<rootDir>/package.json',
     'node:(.*)$': '$1',
-    '#ansi-styles': 'chalk/source/vendor/ansi-styles/index.js',
-    '#supports-color': 'chalk/source/vendor/supports-color/index.js'
+    '#(.*)': '<rootDir>/node_modules/$1'
   },
   transform: {
     '\\.toml$': 'jest-transform-toml',
