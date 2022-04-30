@@ -509,18 +509,6 @@ const tauricon = {
       await this.validate(src, target)
 
       const s = sharp(src)
-
-      const icns = new Icns()
-      for (const key in icnsImageList) {
-        // eslint-disable-next-line security/detect-object-injection
-        const config = icnsImageList[key]
-        const data = await s.resize(config.size, config.size).toBuffer()
-        const image = IcnsImage.fromPNG(data, config.ostype)
-        icns.append(image)
-      }
-      ensureFileSync(path.join(target, '/icon.icns'))
-      writeFileSync(path.join(target, '/icon.icns'), icns.data)
-
       const metadata = await s.metadata()
       let icoBuf
       if (metadata.width !== metadata.height) {
@@ -529,6 +517,18 @@ const tauricon = {
       } else {
         icoBuf = await s.toBuffer()
       }
+
+      const icns = new Icns()
+      for (const key in icnsImageList) {
+        // eslint-disable-next-line security/detect-object-injection
+        const config = icnsImageList[key]
+        const data = await s.resize(config.size, config.size).png({ compressionLevel: 9, effort: 10 }).toBuffer()
+        const image = IcnsImage.fromPNG(data, config.ostype)
+        icns.append(image)
+      }
+      ensureFileSync(path.join(target, '/icon.icns'))
+      writeFileSync(path.join(target, '/icon.icns'), icns.data)
+
       const out2 = await pngToIco(icoBuf)
       if (out2 === null) {
         throw new Error('Failed to create icon.ico')
