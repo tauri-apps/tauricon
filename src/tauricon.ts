@@ -522,7 +522,10 @@ const tauricon = {
       for (const key in icnsImageList) {
         // eslint-disable-next-line security/detect-object-injection
         const config = icnsImageList[key]
-        const data = await s.resize(config.size, config.size).png({ compressionLevel: 9, effort: 10 }).toBuffer()
+        const data = await s
+          .resize(config.size, config.size)
+          .png({ compressionLevel: 9, effort: 10 })
+          .toBuffer()
         const image = IcnsImage.fromPNG(data, config.ostype)
         icns.append(image)
       }
