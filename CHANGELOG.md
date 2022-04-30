@@ -1,5 +1,10 @@
 # Changelog
 
+## \[1.0.2]
+
+- Include icns.json file in generated package.
+  - [e3ec7fa](https://github.com/tauri-apps/tauricon/commit/e3ec7fa085888c5d07d328ea970e3d4ff0160d52) fix: Include icns.json file in package, fixes [#48](https://github.com/tauri-apps/tauricon/pull/48) ([#49](https://github.com/tauri-apps/tauricon/pull/49)) on 2022-04-30
+
 ## \[1.0.1]
 
 - Fixes `icns` generation.
