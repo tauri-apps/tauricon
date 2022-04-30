@@ -1114,7 +1114,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fiahfy/icns@^0.0.7":
+"@fiahfy/icns@0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@fiahfy/icns/-/icns-0.0.7.tgz#5492420c64f522f3a88765a058ea9bf60ee4c648"
   integrity sha512-0apAtbUXTU3Opy/Z4h69o53voBa+am8FmdZauyagUMskAVYN1a5yIRk48Sf+tEdBLlefbvqLWPJ4pxr/Y/QtTg==
