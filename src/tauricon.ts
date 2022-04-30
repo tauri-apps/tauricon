@@ -30,7 +30,7 @@ import { appDir, tauriDir } from './helpers/app-paths'
 import logger from './helpers/logger'
 import * as settings from './helpers/tauricon.config'
 import chalk from 'chalk'
-import { Icns, IcnsImage, OSType } from '@fiahfy/icns';
+import { Icns, IcnsImage, OSType } from '@fiahfy/icns'
 import { createRequire } from 'module'
 
 // @ts-expect-error
@@ -40,7 +40,9 @@ const require = createRequire(import.meta.url)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const icnsImageList: { [key: string]: { size: number, name: string, ostype: OSType } } = require('../src/helpers/icns.json')
+const icnsImageList: {
+  [key: string]: { size: number; name: string; ostype: OSType }
+} = require('../src/helpers/icns.json')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pngToIco = require('png-to-ico')
 
@@ -514,7 +516,7 @@ const tauricon = {
         const config = icnsImageList[key]
         const data = await s.resize(config.size).toBuffer()
         const image = IcnsImage.fromPNG(data, config.ostype)
-        icns.append(image);
+        icns.append(image)
       }
       ensureFileSync(path.join(target, '/icon.icns'))
       writeFileSync(path.join(target, '/icon.icns'), icns.data)
