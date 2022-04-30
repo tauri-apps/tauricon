@@ -72,8 +72,8 @@
     "update-notifier": "5.1.0"
   },
   "devDependencies": {
-    "@babel/core": "7.17.9",
-    "@babel/preset-env": "7.16.11",
+    "@babel/core": "7.17.10",
+    "@babel/preset-env": "7.17.10",
     "@babel/preset-typescript": "7.16.7",
     "@jest/globals": "28.0.2",
     "@rollup/plugin-babel": "5.3.1",
