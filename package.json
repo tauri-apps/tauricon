@@ -22,7 +22,8 @@
   "files": [
     "bin",
     "dist",
-    "scripts"
+    "scripts",
+    "src/helpers/icns.json"
   ],
   "scripts": {
     "postinstall": "",
