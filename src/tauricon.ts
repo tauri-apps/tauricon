@@ -24,13 +24,13 @@ import optipng from 'imagemin-optipng'
 import zopfli from 'imagemin-zopfli'
 import isPng from 'is-png'
 import path from 'path'
-import * as png2icons from 'png2icons'
 import { readChunk } from 'read-chunk'
 import sharp from 'sharp'
 import { appDir, tauriDir } from './helpers/app-paths'
 import logger from './helpers/logger'
 import * as settings from './helpers/tauricon.config'
 import chalk from 'chalk'
+import { Icns, IcnsImage, OSType } from '@fiahfy/icns'
 import { createRequire } from 'module'
 
 // @ts-expect-error
@@ -39,6 +39,10 @@ const { access, ensureDir, ensureFileSync, writeFileSync } = fsExtra.default
 const require = createRequire(import.meta.url)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const icnsImageList: {
+  [key: string]: { size: number; name: string; ostype: OSType }
+} = require('../src/helpers/icns.json')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pngToIco = require('png-to-ico')
 
@@ -506,7 +510,6 @@ const tauricon = {
 
       const s = sharp(src)
       const metadata = await s.metadata()
-      const buf = await s.toBuffer()
       let icoBuf
       if (metadata.width !== metadata.height) {
         const size = Math.min(metadata.width ?? 256, metadata.height ?? 256)
@@ -515,12 +518,19 @@ const tauricon = {
         icoBuf = await s.toBuffer()
       }
 
-      const out = png2icons.createICNS(buf, png2icons.BICUBIC, 0)
-      if (out === null) {
-        throw new Error('Failed to create icon.icns')
+      const icns = new Icns()
+      for (const key in icnsImageList) {
+        // eslint-disable-next-line security/detect-object-injection
+        const config = icnsImageList[key]
+        const data = await s
+          .resize(config.size, config.size)
+          .png({ compressionLevel: 9, effort: 10 })
+          .toBuffer()
+        const image = IcnsImage.fromPNG(data, config.ostype)
+        icns.append(image)
       }
       ensureFileSync(path.join(target, '/icon.icns'))
-      writeFileSync(path.join(target, '/icon.icns'), out)
+      writeFileSync(path.join(target, '/icon.icns'), icns.data)
 
       const out2 = await pngToIco(icoBuf)
       if (out2 === null) {
