@@ -56,7 +56,7 @@
     "cross-spawn": "7.0.3",
     "find-up": "6.3.0",
     "fs-extra": "10.1.0",
-    "glob": "8.0.1",
+    "glob": "8.0.3",
     "global-agent": "3.0.0",
     "got": "12.0.4",
     "imagemin": "8.0.1",
