@@ -6,7 +6,7 @@ mod macros;
 
 use anyhow::Context;
 use clap::Parser;
-use image::io::Reader as ImageReader;
+use image::{imageops::FilterType, io::Reader as ImageReader};
 use simplelog::*;
 
 mod configs;
@@ -36,21 +36,32 @@ const LEVELFILTER: LevelFilter = {
     }
 };
 
-fn main() -> anyhow::Result<()> {
-    let args = Args::parse();
+fn read_image(
+    icon_path: &str,
+) -> anyhow::Result<image::io::Reader<std::io::BufReader<std::fs::File>>> {
+    let cwd = std::env::current_dir().context("Could not get current directory")?;
 
-    let logging = args.log;
+    ImageReader::open(cwd.join(icon_path))
+        .context("Failed to read image")?
+        .with_guessed_format()
+        .map_err(|e| e.into())
+}
 
+fn init_logger(log: bool) -> anyhow::Result<()> {
     CombinedLogger::init(vec![TermLogger::new(
-        if logging {
-            LEVELFILTER
-        } else {
-            LevelFilter::Error
-        },
+        if log { LEVELFILTER } else { LevelFilter::Error },
         Config::default(),
         TerminalMode::Mixed,
         ColorChoice::Auto,
     )])?;
+
+    Ok(())
+}
+
+fn main() -> anyhow::Result<()> {
+    let args = Args::parse();
+
+    init_logger(args.log)?;
 
     let config = configs::get_config();
 
@@ -76,33 +87,39 @@ fn main() -> anyhow::Result<()> {
 
     info!("Opening icon file at {}", args.icon_path);
 
-    let reader = ImageReader::open(args.icon_path)?.with_guessed_format()?;
+    {
+        let reader = read_image(&args.icon_path)?;
 
-    let format = reader
-        .format()
-        .context("Invalid image format. Must be PNG")?;
+        let format = reader
+            .format()
+            .context("Invalid image format. Must be PNG")?;
 
-    if format != image::ImageFormat::Png {
-        error!("Only PNG images are supported");
-        exit!();
+        if format != image::ImageFormat::Png {
+            error!("Only PNG images are supported");
+            exit!();
+        }
+
+        let (length, width) = reader.into_dimensions()?;
+
+        if length != width {
+            error!("Only square images are supported");
+            exit!();
+        }
+
+        if length < 1240 || width < 1240 {
+            error!("Image size must be at least 1240x1240");
+            exit!();
+        }
+
+        info!("Image dimensions: {}x{}", width, length);
     }
-
-    let (length, width) = reader.into_dimensions()?;
-
-    if length != width {
-        error!("Only square images are supported");
-        exit!();
-    }
-
-    if length < 1240 || width < 1240 {
-        error!("Image size must be at least 1240x1240");
-        exit!();
-    }
-
-    info!("Image dimensions: {}x{}", width, length);
 
     let target_path = std::env::current_dir()?.join(args.target);
     std::fs::create_dir_all(&target_path)?;
+
+    // Must be done again as initial reader is moved
+    let reader = read_image(&args.icon_path)?;
+    let base_image = reader.decode()?;
 
     for icon in parsed_icons {
         let target_ext: String = icon.format.into();
@@ -120,6 +137,9 @@ fn main() -> anyhow::Result<()> {
         let target_file = target_path.join(format!("{}{}.{}", name, scale, target_ext));
 
         info!("Writing icon to {}", target_file.display());
+
+        let resized = base_image.resize(icon.width, icon.height, FilterType::Nearest);
+        resized.save_with_format(target_file, icon.format.into())?;
     }
 
     Ok(())

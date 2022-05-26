@@ -1,5 +1,7 @@
 use anyhow::Context;
+use image::ImageFormat;
 
+#[derive(Debug, Clone, Copy)]
 pub struct ImageInfo {
     pub width: u32,
     pub height: u32,
@@ -7,6 +9,7 @@ pub struct ImageInfo {
     pub format: IconFormat,
 }
 
+#[derive(Debug, Clone, Copy)]
 pub enum IconFormat {
     Png,
     Ico,
@@ -19,6 +22,15 @@ impl From<IconFormat> for String {
             IconFormat::Png => "png".to_string(),
             IconFormat::Ico => "ico".to_string(),
             IconFormat::Icns => "icns".to_string(),
+        }
+    }
+}
+
+impl From<IconFormat> for ImageFormat {
+    fn from(format: IconFormat) -> Self {
+        match format {
+            IconFormat::Ico => ImageFormat::Ico,
+            _ => ImageFormat::Png,
         }
     }
 }
