@@ -9,7 +9,7 @@ pub struct ImageInfo {
     pub format: IconFormat,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum IconFormat {
     Png,
     Ico,
@@ -68,6 +68,15 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
             .parse::<u32>()
             .context("Failed to parse scale into a number")?
     };
+
+    if image_type == IconFormat::Ico {
+        return Ok(ImageInfo {
+            width: 256,
+            height: 256,
+            scale,
+            format: image_type,
+        });
+    }
 
     let size = if scale_index == 1 {
         let until = path.len() - end.len() - 1;

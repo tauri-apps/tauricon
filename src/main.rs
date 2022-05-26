@@ -128,7 +128,7 @@ fn main() -> anyhow::Result<()> {
         } else {
             format!("@{}x", icon.scale)
         };
-        let name = if icon.height == 1240 {
+        let name = if icon.height == 1240 || icon.format == icons::IconFormat::Ico {
             "icon".into()
         } else {
             format!("{}x{}", icon.width, icon.height)
