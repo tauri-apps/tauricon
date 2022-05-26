@@ -69,6 +69,11 @@ fn main() -> anyhow::Result<()> {
         Ok(v) => v.tauri.bundle.icon,
     };
 
+    let parsed_icons = final_icons
+        .iter()
+        .map(|x| icons::parse_icon_path(x))
+        .collect::<Result<Vec<_>, anyhow::Error>>()?;
+
     info!("Opening icon file at {}", args.icon_path);
 
     let reader = ImageReader::open(args.icon_path)?.with_guessed_format()?;
