@@ -30,10 +30,21 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
         }
     };
 
+    let scale_index = path.chars().position(|x| x == '@').unwrap_or(1);
+
+    let scale_string: String = path[scale_index..]
+        .chars()
+        .filter(|x| x.is_digit(10))
+        .collect();
+
+    let scale = scale_string
+        .parse::<u32>()
+        .context("Failed to parse scale into a number")?;
+
     Ok(ImageInfo {
         width: 0,
         height: 0,
-        scale: 1,
+        scale,
         format: image_type,
     })
 }
