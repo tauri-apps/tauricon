@@ -54,12 +54,20 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
         }
     };
 
-    let scale_index = path.chars().position(|x| x == '@').unwrap_or(1);
+    let scale_index = path.chars().position(|x| x == '@').unwrap_or(0);
 
-    let scale_string: String = path[scale_index..]
-        .chars()
-        .filter(|x| x.is_digit(10))
-        .collect();
+    debug!("{}", scale_index);
+
+    let scale_string: String = {
+        if scale_index == 0 {
+            "".to_string()
+        } else {
+            path[scale_index..]
+                .chars()
+                .filter(|x| x.is_digit(10))
+                .collect()
+        }
+    };
 
     let scale = if scale_string.is_empty() {
         1
@@ -78,7 +86,7 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
         });
     }
 
-    let size = if scale_index == 1 {
+    let size = if scale_index == 0 {
         let until = path.len() - end.len() - 1;
 
         &path[..until]
