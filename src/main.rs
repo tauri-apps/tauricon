@@ -6,7 +6,8 @@ mod macros;
 
 use anyhow::Context;
 use clap::Parser;
-use image::{imageops::FilterType, io::Reader as ImageReader};
+use image::{imageops::FilterType, io::Reader as ImageReader, ImageResult};
+use rayon::prelude::*;
 use simplelog::*;
 
 mod configs;
@@ -121,26 +122,29 @@ fn main() -> anyhow::Result<()> {
     let reader = read_image(&args.icon_path)?;
     let base_image = reader.decode()?;
 
-    for icon in parsed_icons {
-        let target_ext: String = icon.format.into();
-        let scale = if icon.scale == 1 {
-            String::from("")
-        } else {
-            format!("@{}x", icon.scale)
-        };
-        let name = if icon.height == 1240 || icon.format == icons::IconFormat::Ico {
-            "icon".into()
-        } else {
-            format!("{}x{}", icon.width, icon.height)
-        };
+    parsed_icons
+        .par_iter()
+        .map(|icon| {
+            let target_ext: String = icon.format.into();
+            let scale = if icon.scale == 1 {
+                String::from("")
+            } else {
+                format!("@{}x", icon.scale)
+            };
+            let name = if icon.height == 1240 || icon.format == icons::IconFormat::Ico {
+                "icon".into()
+            } else {
+                format!("{}x{}", icon.width, icon.height)
+            };
 
-        let target_file = target_path.join(format!("{}{}.{}", name, scale, target_ext));
+            let target_file = target_path.join(format!("{}{}.{}", name, scale, target_ext));
 
-        info!("Writing icon to {}", target_file.display());
+            info!("Writing icon to {}", target_file.display());
 
-        let resized = base_image.resize(icon.width, icon.height, FilterType::Nearest);
-        resized.save_with_format(target_file, icon.format.into())?;
-    }
+            let resized = base_image.resize(icon.width, icon.height, FilterType::Nearest);
+            resized.save_with_format(target_file, icon.format.into())
+        })
+        .collect::<ImageResult<Vec<_>>>()?;
 
     Ok(())
 }
