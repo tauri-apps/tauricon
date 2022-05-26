@@ -13,7 +13,7 @@ pub enum IconFormat {
     Icns,
 }
 
-pub fn parse_icon_path(path: &String) -> anyhow::Result<ImageInfo> {
+pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
     let end = path
         .split('.')
         .last()
@@ -34,6 +34,6 @@ pub fn parse_icon_path(path: &String) -> anyhow::Result<ImageInfo> {
         width: 0,
         height: 0,
         scale: 1,
-        format: IconFormat::Png,
+        format: image_type,
     })
 }
