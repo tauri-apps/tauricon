@@ -7,7 +7,7 @@ use clap::Parser;
 use image::io::Reader as ImageReader;
 use simplelog::*;
 
-#[derive(Parser)]
+#[derive(Debug, Clone, Parser)]
 #[clap(about, version, author)]
 struct Args {
     /// The path to the source icon
@@ -46,6 +46,8 @@ fn main() -> anyhow::Result<()> {
         TerminalMode::Mixed,
         ColorChoice::Auto,
     )])?;
+
+    info!("Opening icon file at {}", args.icon_path);
 
     Ok(())
 }
