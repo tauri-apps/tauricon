@@ -54,19 +54,20 @@ fn main() -> anyhow::Result<()> {
 
     let config = configs::get_config();
 
-    if let Err(config_error) = config {
-        let res = match config_error {
+    let final_icons = match config {
+        Err(config_error) => {
+            let res = match config_error {
             configs::ConfigError::Io(e) => format!("{}", e),
             configs::ConfigError::Json(e) => format!("{}", e),
             configs::ConfigError::FileNotFound(e) => format!("Could not find Tauri config file at {}.\nYou must run this command within a Tauri project!", e.display()),
         };
 
-        error!("{}", res);
+            error!("{}", res);
 
-        exit!();
-    }
-
-    let final_icons = config?.tauri.bundle.icon;
+            exit!();
+        }
+        Ok(v) => v.tauri.bundle.icon,
+    };
 
     info!("Opening icon file at {}", args.icon_path);
 
