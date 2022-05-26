@@ -1,0 +1,20 @@
+[package]
+name = "tauricon"
+version = "1.0.0"
+license = "MIT"
+edition = "2021"
+description = "Create all the icons you need for your Tauri app."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = { version = "1.0.57", features = ["backtrace"] }
+clap = { version = "3.1.18", features = ["derive"] }
+icns = "0.3.1"
+image = "0.24.2"
+log = "0.4.17"
+rayon = "1.5.3"
+serde = { version = "1.0.137", features = ["derive"] }
+serde_json = "1.0.81"
+simplelog = "0.12.0"
+thiserror = "1.0.31"

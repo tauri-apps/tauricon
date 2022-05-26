@@ -10,12 +10,11 @@ Use the following format:
 
 ```md
 ---
-"package-a": patch
-"package-b": minor
+'package-a': patch
+'package-b': minor
 ---
 
 Change summary goes here
-
 ```
 
 Summaries do not have a specific character limit, but are text only. These summaries are used within the (future implementation of) changelogs. They will give context to the change and also point back to the original PR if more details and context are needed.

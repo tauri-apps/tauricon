@@ -1,6 +1,6 @@
 # tauricon
 
-Make icons for your tauri app with nodejs
+Make icons for your tauri app with Rust
 
 ## Usage
 
