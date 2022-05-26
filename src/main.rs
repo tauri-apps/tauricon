@@ -69,7 +69,9 @@ fn main() -> anyhow::Result<()> {
 
     let reader = ImageReader::open(args.icon_path)?.with_guessed_format()?;
 
-    let format = reader.format().context("Invalid image format")?;
+    let format = reader
+        .format()
+        .context("Invalid image format. Must be PNG")?;
 
     if format != image::ImageFormat::Png {
         error!("Only PNG images are supported");
