@@ -1,7 +1,4 @@
-use std::{
-    fs::File,
-    io::{BufReader, BufWriter},
-};
+use std::fs::File;
 
 #[macro_use]
 extern crate log;
@@ -11,7 +8,7 @@ mod macros;
 
 use anyhow::Context;
 use clap::Parser;
-use icns::{IconFamily, IconType};
+use icns::IconFamily;
 use image::{imageops::FilterType, io::Reader as ImageReader};
 use rayon::prelude::*;
 use simplelog::*;
@@ -148,8 +145,12 @@ fn main() -> anyhow::Result<()> {
             info!("Writing icon to {}", target_file.display());
 
             if icon.format == icons::IconFormat::Icns {
+                // Writes the resized image to the "target file" to it can be read in future
+                let resized = base_image.resize(256, 256, FilterType::Nearest);
+                resized.save_with_format(&target_file, image::ImageFormat::Png)?;
+
                 let mut icon_family = IconFamily::new();
-                let base_image_buf = BufReader::new(File::open(&args.icon_path)?);
+                let base_image_buf = File::open(&target_file)?;
                 let base_image = icns::Image::read_png(base_image_buf)?;
 
                 icon_family.add_icon(&base_image)?;
@@ -157,6 +158,7 @@ fn main() -> anyhow::Result<()> {
                 icon_family.write(File::create(&target_file)?)?;
             } else {
                 let resized = base_image.resize(icon.width, icon.height, FilterType::Nearest);
+
                 resized.save_with_format(target_file, icon.format.into())?;
             }
 
