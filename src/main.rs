@@ -3,6 +3,7 @@ use std::io::Cursor;
 #[macro_use]
 extern crate log;
 
+use anyhow::Context;
 use clap::Parser;
 use image::io::Reader as ImageReader;
 use simplelog::*;
@@ -48,6 +49,29 @@ fn main() -> anyhow::Result<()> {
     )])?;
 
     info!("Opening icon file at {}", args.icon_path);
+
+    let reader = ImageReader::open(args.icon_path)?.with_guessed_format()?;
+
+    let format = reader.format().context("Invalid image format")?;
+
+    if format != image::ImageFormat::Png {
+        error!("Only PNG images are supported");
+        return Ok(());
+    }
+
+    let (length, width) = reader.into_dimensions()?;
+
+    if length != width {
+        error!("Only square images are supported");
+        return Ok(());
+    }
+
+    if length < 1240 || width < 1240 {
+        error!("Image size must be at least 1240x1240");
+        return Ok(());
+    }
+
+    info!("Image dimensions: {}x{}", width, length);
 
     Ok(())
 }
