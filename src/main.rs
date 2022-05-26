@@ -65,6 +65,8 @@ fn main() -> anyhow::Result<()> {
         exit!();
     }
 
+    let final_icons = config?.tauri.bundle.icon;
+
     info!("Opening icon file at {}", args.icon_path);
 
     let reader = ImageReader::open(args.icon_path)?.with_guessed_format()?;
