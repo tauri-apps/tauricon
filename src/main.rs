@@ -10,6 +10,7 @@ use image::io::Reader as ImageReader;
 use simplelog::*;
 
 mod configs;
+mod icons;
 
 #[derive(Debug, Clone, Parser)]
 #[clap(about, version, author)]
