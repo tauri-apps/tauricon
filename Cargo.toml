@@ -10,6 +10,7 @@ description = "Create all the icons you need for your Tauri app."
 [dependencies]
 anyhow = { version = "1.0.57", features = ["backtrace"] }
 clap = { version = "3.1.18", features = ["derive"] }
+icns = "0.3.1"
 image = "0.24.2"
 log = "0.4.17"
 rayon = "1.5.3"

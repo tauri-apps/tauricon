@@ -1,3 +1,8 @@
+use std::{
+    fs::File,
+    io::{BufReader, BufWriter},
+};
+
 #[macro_use]
 extern crate log;
 
@@ -6,7 +11,8 @@ mod macros;
 
 use anyhow::Context;
 use clap::Parser;
-use image::{imageops::FilterType, io::Reader as ImageReader, ImageResult};
+use icns::{IconFamily, IconType};
+use image::{imageops::FilterType, io::Reader as ImageReader};
 use rayon::prelude::*;
 use simplelog::*;
 
@@ -124,7 +130,7 @@ fn main() -> anyhow::Result<()> {
 
     parsed_icons
         .par_iter()
-        .map(|icon| {
+        .map(|icon| -> anyhow::Result<()> {
             let target_ext: String = icon.format.into();
             let scale = if icon.scale == 1 {
                 String::from("")
@@ -141,10 +147,22 @@ fn main() -> anyhow::Result<()> {
 
             info!("Writing icon to {}", target_file.display());
 
-            let resized = base_image.resize(icon.width, icon.height, FilterType::Nearest);
-            resized.save_with_format(target_file, icon.format.into())
+            if icon.format == icons::IconFormat::Icns {
+                let mut icon_family = IconFamily::new();
+                let base_image_buf = BufReader::new(File::open(&args.icon_path)?);
+                let base_image = icns::Image::read_png(base_image_buf)?;
+
+                icon_family.add_icon(&base_image)?;
+
+                icon_family.write(File::create(&target_file)?)?;
+            } else {
+                let resized = base_image.resize(icon.width, icon.height, FilterType::Nearest);
+                resized.save_with_format(target_file, icon.format.into())?;
+            }
+
+            Ok(())
         })
-        .collect::<ImageResult<Vec<_>>>()?;
+        .collect::<anyhow::Result<Vec<_>>>()?;
 
     Ok(())
 }
