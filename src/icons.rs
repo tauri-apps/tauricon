@@ -36,6 +36,8 @@ impl From<IconFormat> for ImageFormat {
 }
 
 pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
+    let path = path.split('/').last().unwrap_or(path);
+
     let end = path
         .split('.')
         .last()
@@ -63,7 +65,12 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
         .parse::<u32>()
         .context("Failed to parse scale into a number")?;
 
-    let size = &path[..scale_index];
+    let size = if scale_index == 1 {
+        let up_to = path.len() - end.len() - 1;
+        &path[..up_to]
+    } else {
+        &path[..scale_index]
+    };
 
     if size == "icon" {
         return Ok(ImageInfo {
@@ -77,7 +84,9 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
     let (width, height) = {
         let sizes: Vec<&str> = size.split('x').collect();
 
-        let dimensions = (&sizes[0..=1])
+        debug!("Parseing file: {:?}", size);
+
+        let dimensions = (&sizes[0..2])
             .iter()
             .map(|x| {
                 x.parse::<u32>()
