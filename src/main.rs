@@ -1,12 +1,15 @@
-use std::io::Cursor;
-
 #[macro_use]
 extern crate log;
+
+#[macro_use]
+mod macros;
 
 use anyhow::Context;
 use clap::Parser;
 use image::io::Reader as ImageReader;
 use simplelog::*;
+
+mod configs;
 
 #[derive(Debug, Clone, Parser)]
 #[clap(about, version, author)]
@@ -41,12 +44,26 @@ fn main() -> anyhow::Result<()> {
         if logging {
             LEVELFILTER
         } else {
-            LevelFilter::Off
+            LevelFilter::Error
         },
         Config::default(),
         TerminalMode::Mixed,
         ColorChoice::Auto,
     )])?;
+
+    let config = configs::get_config();
+
+    if let Err(config_error) = config {
+        let res = match config_error {
+            configs::ConfigError::Io(e) => format!("{}", e),
+            configs::ConfigError::Json(e) => format!("{}", e),
+            configs::ConfigError::FileNotFound(e) => format!("Could not find Tauri config file at {}.\nYou must run this command within a Tauri project!", e.display()),
+        };
+
+        error!("{}", res);
+
+        exit!();
+    }
 
     info!("Opening icon file at {}", args.icon_path);
 
@@ -56,19 +73,19 @@ fn main() -> anyhow::Result<()> {
 
     if format != image::ImageFormat::Png {
         error!("Only PNG images are supported");
-        return Ok(());
+        exit!();
     }
 
     let (length, width) = reader.into_dimensions()?;
 
     if length != width {
         error!("Only square images are supported");
-        return Ok(());
+        exit!();
     }
 
     if length < 1240 || width < 1240 {
         error!("Image size must be at least 1240x1240");
-        return Ok(());
+        exit!();
     }
 
     info!("Image dimensions: {}x{}", width, length);
