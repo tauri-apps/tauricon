@@ -61,13 +61,18 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
         .filter(|x| x.is_digit(10))
         .collect();
 
-    let scale = scale_string
-        .parse::<u32>()
-        .context("Failed to parse scale into a number")?;
+    let scale = if scale_string.is_empty() {
+        1
+    } else {
+        scale_string
+            .parse::<u32>()
+            .context("Failed to parse scale into a number")?
+    };
 
     let size = if scale_index == 1 {
-        let up_to = path.len() - end.len() - 1;
-        &path[..up_to]
+        let until = path.len() - end.len() - 1;
+
+        &path[..until]
     } else {
         &path[..scale_index]
     };
@@ -84,7 +89,7 @@ pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
     let (width, height) = {
         let sizes: Vec<&str> = size.split('x').collect();
 
-        debug!("Parseing file: {:?}", size);
+        debug!("Parseing size: {:?}", sizes);
 
         let dimensions = (&sizes[0..2])
             .iter()
