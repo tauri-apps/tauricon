@@ -101,5 +101,26 @@ fn main() -> anyhow::Result<()> {
 
     info!("Image dimensions: {}x{}", width, length);
 
+    let target_path = std::env::current_dir()?.join(args.target);
+    std::fs::create_dir_all(&target_path)?;
+
+    for icon in parsed_icons {
+        let target_ext: String = icon.format.into();
+        let scale = if icon.scale == 1 {
+            String::from("")
+        } else {
+            format!("@{}x", icon.scale)
+        };
+        let name = if icon.height == 1240 {
+            "icon".into()
+        } else {
+            format!("{}x{}", icon.width, icon.height)
+        };
+
+        let target_file = target_path.join(format!("{}{}.{}", name, scale, target_ext));
+
+        info!("Writing icon to {}", target_file.display());
+    }
+
     Ok(())
 }

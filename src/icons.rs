@@ -1,16 +1,26 @@
 use anyhow::Context;
 
 pub struct ImageInfo {
-    width: u32,
-    height: u32,
-    scale: u32,
-    format: IconFormat,
+    pub width: u32,
+    pub height: u32,
+    pub scale: u32,
+    pub format: IconFormat,
 }
 
 pub enum IconFormat {
     Png,
     Ico,
     Icns,
+}
+
+impl From<IconFormat> for String {
+    fn from(format: IconFormat) -> Self {
+        match format {
+            IconFormat::Png => "png".to_string(),
+            IconFormat::Ico => "ico".to_string(),
+            IconFormat::Icns => "icns".to_string(),
+        }
+    }
 }
 
 pub fn parse_icon_path(path: &str) -> anyhow::Result<ImageInfo> {
