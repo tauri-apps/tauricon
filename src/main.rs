@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 use std::fs::File;
 
 #[macro_use]
