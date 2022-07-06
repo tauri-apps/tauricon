@@ -1,5 +1,10 @@
 # Changelog
 
+## \[1.0.3]
+
+- Generate 32x32 ICO icons for better compatibility with the window icon on Windows.
+  - [91cb5c0](https://github.com/tauri-apps/tauricon/commit/91cb5c0c7ff63e23e91b554d03d51f1f325468d0) fix(windows): generate 32x32 ico files ([#75](https://github.com/tauri-apps/tauricon/pull/75)) on 2022-07-06
+
 ## \[1.0.2]
 
 - Include icns.json file in generated package.
