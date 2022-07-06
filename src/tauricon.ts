@@ -509,14 +509,7 @@ const tauricon = {
       await this.validate(src, target)
 
       const s = sharp(src)
-      const metadata = await s.metadata()
-      let icoBuf
-      if (metadata.width !== metadata.height) {
-        const size = Math.min(metadata.width ?? 256, metadata.height ?? 256)
-        icoBuf = await s.resize(size, size).toBuffer()
-      } else {
-        icoBuf = await s.toBuffer()
-      }
+      const icoBuf = await s.resize(32, 32).toBuffer()
 
       const icns = new Icns()
       for (const key in icnsImageList) {
@@ -532,7 +525,7 @@ const tauricon = {
       ensureFileSync(path.join(target, '/icon.icns'))
       writeFileSync(path.join(target, '/icon.icns'), icns.data)
 
-      const out2 = await pngToIco(icoBuf)
+      const out2 = await pngToIco([icoBuf])
       if (out2 === null) {
         throw new Error('Failed to create icon.ico')
       }
