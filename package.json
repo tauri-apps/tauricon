@@ -116,7 +116,7 @@
     "typescript": "4.6.4"
   },
   "resolutions": {
-    "**/semver-regex": "4.0.3",
+    "**/semver-regex": "4.0.5",
     "**/trim-newlines": "4.0.2"
   }
 }
