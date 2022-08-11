@@ -89,7 +89,7 @@
     "@types/imagemin-optipng": "5.2.1",
     "@types/inquirer": "8.2.1",
     "@types/ms": "0.7.31",
-    "@types/semver": "7.3.9",
+    "@types/semver": "7.3.12",
     "@types/sharp": "0.30.2",
     "@typescript-eslint/eslint-plugin": "5.26.0",
     "@typescript-eslint/parser": "5.26.0",
